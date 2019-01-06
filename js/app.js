@@ -1,6 +1,19 @@
 /*
  * Create a list that holds all of your cards
  */
+// The set of 8 icons that we will make use of
+const iconsToBeUsed = [
+    "fas fa-broom",
+    "fas fa-cat",
+    "fas fa-cloud-moon",
+    "fas fa-crow",
+    "fas fa-ghost",
+    "fas fa-hat-wizard",
+    "fas fa-mask",
+    "fas fa-skull-crossbones"
+];
+// The complete list of cards which is the set of cards duplicated
+const completeIconList = [...iconsToBeUsed, ...iconsToBeUsed];
 
 
 /*
@@ -12,7 +25,7 @@
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
