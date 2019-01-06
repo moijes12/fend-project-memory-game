@@ -39,6 +39,50 @@ function shuffle(array) {
 }
 
 
+/**
+ * @description Close all the cards in the deck
+ */
+function closeAllCards() {
+    // Get all cards
+    const cardList = document.body.getElementsByClassName('card');
+    for (let card of cardList) {
+        card.classList.remove('open', 'show', 'match');
+    }
+}
+
+
+/**
+ * @description Reorder the cards in the deck
+ */
+function reorderCardsInDeck() {
+    const shuffledIcons = shuffle(completeIconList);
+    // Get all cards
+    const cardList = document.body.getElementsByClassName('card');
+    for (let card of cardList) {
+        // Get the first element
+        const cardIcon = card.firstElementChild;
+        // Get the classList to be replaced
+        const iconClassList = cardIcon.classList.toString().split(" ");
+        // Remove all classes in the class list
+        cardIcon.classList.remove(...iconClassList);
+        // Shuffled Icons to add to list
+        const iconsToAdd = shuffledIcons.pop().split(" ");
+        // Pop an element from the shuffledIcons and add it to the class list
+        cardIcon.classList.add(...iconsToAdd);
+    }
+}
+
+
+/**
+ * @description Reset the card deck by closing all cards and shuffling their order
+ */
+function resetDeck() {
+    // Close all cards
+    closeAllCards();
+    // Reorder cards in deck
+    reorderCardsInDeck();
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -49,3 +93,11 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+/**
+ * Setting up the event listener for the reset button.
+ */
+const resetButton = document.getElementById('resetButton');
+resetButton.addEventListener('click', resetDeck, false);
+
+
