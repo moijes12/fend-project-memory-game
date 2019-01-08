@@ -83,6 +83,30 @@ function resetDeck() {
     reorderCardsInDeck();
 }
 
+
+/**
+ * @description Get the list of cards in the deck
+ * @returns HTMLCollectionOf<Element> list of card elements in the deck
+ */
+function getCardList() {
+    return document.body.getElementsByClassName('card');
+}
+
+/**
+ * Click a card
+ * @param event
+ */
+function clickCard(event) {
+    let card = event.target;
+    if(card.classList.contains('match')) {
+        // Do nothing as this card has already been matched
+    } else if(card.classList.contains('show')) {
+        card.classList.remove('show', 'open');
+    } else {
+        card.classList.add('open', 'show');
+    }
+}
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -100,4 +124,10 @@ function resetDeck() {
 const resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', resetDeck, false);
 
-
+/**
+ * Setup the event listener for card clicks.
+ */
+const cardList =  getCardList();
+for (let card of cardList) {
+    card.addEventListener('click', clickCard)
+}
