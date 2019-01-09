@@ -92,12 +92,28 @@ function getCardList() {
     return document.body.getElementsByClassName('card');
 }
 
+
 /**
- * Click a card
- * @param event
+ * @description Get the list of icons on the page
  */
-function clickCard(event) {
-    let card = event.target;
+function getIconList() {
+    // Get all cards
+    const cardList = document.body.getElementsByClassName('card');
+    // Icon list
+    let iconList = [];
+    for (let card of cardList) {
+        // Get the first element
+        iconList.push(card.firstElementChild);
+    }
+    return iconList;
+}
+
+
+/**
+ * @description Flip a card when the card or it's inner icon is clicked
+ * @param card The card to be flipped
+ */
+function flipCard(card) {
     if(card.classList.contains('match')) {
         // Do nothing as this card has already been matched
     } else if(card.classList.contains('show')) {
@@ -105,6 +121,26 @@ function clickCard(event) {
     } else {
         card.classList.add('open', 'show');
     }
+}
+
+
+/**
+ * Click a card
+ * @param event
+ */
+function clickCard(event) {
+    let card = event.target;
+    flipCard(card);
+}
+
+
+/**
+ * @description Event listener when an icon is clicked
+ * @param event
+ */
+function clickIcon(event) {
+    let card = event.target.parentElement;
+    flipCard(card);
 }
 
 /*
@@ -130,4 +166,13 @@ resetButton.addEventListener('click', resetDeck, false);
 const cardList =  getCardList();
 for (let card of cardList) {
     card.addEventListener('click', clickCard)
+}
+
+
+/**
+ * Setup the event listener for the icon clicks
+ */
+const iconList = getIconList();
+for (let icon of iconList) {
+    icon.addEventListener('click', clickIcon);
 }
