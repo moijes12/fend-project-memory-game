@@ -176,3 +176,9 @@ const iconList = getIconList();
 for (let icon of iconList) {
     icon.addEventListener('click', clickIcon);
 }
+
+
+/**
+ * Add event listener to reset card deck on page load.
+ */
+document.addEventListener('DOMContentLoaded', resetDeck);
