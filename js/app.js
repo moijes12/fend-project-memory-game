@@ -55,7 +55,7 @@ function closeAllCards() {
  * @description Reorder the cards in the deck
  */
 function reorderCardsInDeck() {
-    const shuffledIcons = shuffle(completeIconList);
+    const shuffledIcons = shuffle(completeIconList.slice());
     // Get all cards
     const cardList = document.body.getElementsByClassName('card');
     for (let card of cardList) {
