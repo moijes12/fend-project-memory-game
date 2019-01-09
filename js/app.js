@@ -15,6 +15,8 @@ const iconsToBeUsed = [
 // The complete list of cards which is the set of cards duplicated
 const completeIconList = [...iconsToBeUsed, ...iconsToBeUsed];
 
+// Create a variable to hold the open card
+let openCard = null;
 
 /*
  * Display the cards on the page
@@ -116,10 +118,23 @@ function getIconList() {
 function flipCard(card) {
     if(card.classList.contains('match')) {
         // Do nothing as this card has already been matched
-    } else if(card.classList.contains('show')) {
-        card.classList.remove('show', 'open');
-    } else {
+    } else if (openCard == null) {
+        // First card is being opened
         card.classList.add('open', 'show');
+        openCard = card;
+    } else {
+        // Get card icons
+        let openCardIcon = openCard.firstElementChild.classList.toString().split(" ")[1];
+        let cardIcon = card.firstElementChild.classList.toString().split(" ")[1];
+        if (openCardIcon === cardIcon) {
+            // It's a match
+            card.classList.add('match');
+            openCard.classList.add('match');
+            openCard = null;
+        } else {
+            // It's not a match
+            card.classList.remove('open', 'show');
+        }
     }
 }
 
