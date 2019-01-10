@@ -18,6 +18,9 @@ const completeIconList = [...iconsToBeUsed, ...iconsToBeUsed];
 // Create a variable to hold the open card
 let openCard = null;
 
+// Create a move counter
+let moveCounter = 0;
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -76,6 +79,15 @@ function reorderCardsInDeck() {
 
 
 /**
+ * Reset the move counter.
+ */
+function resetMoveCounter() {
+    const moveCounterElement = document.getElementsByClassName("moves")[0];
+    moveCounterElement.innerText = "0";
+}
+
+
+/**
  * @description Reset the card deck by closing all cards and shuffling their order
  */
 function resetDeck() {
@@ -83,6 +95,8 @@ function resetDeck() {
     closeAllCards();
     // Reorder cards in deck
     reorderCardsInDeck();
+    // Reset Moves Counter
+    resetMoveCounter();
 }
 
 
@@ -197,3 +211,7 @@ for (let icon of iconList) {
  * Add event listener to reset card deck on page load.
  */
 document.addEventListener('DOMContentLoaded', resetDeck);
+/**
+ * Add event listener to reset the moves counter on page load.
+ */
+// document.addEventListener('DOMContentLoaded', resetMoveCounter);
