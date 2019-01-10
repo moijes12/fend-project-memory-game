@@ -79,11 +79,22 @@ function reorderCardsInDeck() {
 
 
 /**
+ * @description Method to update move counter when a card is opened to match it to an already opened card.
+ */
+function updateMoveCounter() {
+    moveCounter = moveCounter + 1;
+    const moveCounterElement = document.getElementsByClassName("moves")[0];
+    moveCounterElement.innerText = "" + moveCounter.toString();
+}
+
+
+/**
  * Reset the move counter.
  */
 function resetMoveCounter() {
     const moveCounterElement = document.getElementsByClassName("moves")[0];
     moveCounterElement.innerText = "0";
+    moveCounter = 0;
 }
 
 
@@ -130,13 +141,16 @@ function getIconList() {
  * @param card The card to be flipped
  */
 function flipCard(card) {
-    if(card.classList.contains('match')) {
-        // Do nothing as this card has already been matched
+    if(card.classList.contains('match') || card.classList.contains('show') || card.classList.contains('open')) {
+        // Do nothing as this card has already been opened
     } else if (openCard == null) {
         // First card is being opened
         card.classList.add('open', 'show');
         openCard = card;
+        updateMoveCounter();
     } else {
+        // Update move counter
+        updateMoveCounter();
         // Get card icons
         let openCardIcon = openCard.firstElementChild.classList.toString().split(" ")[1];
         let cardIcon = card.firstElementChild.classList.toString().split(" ")[1];
@@ -159,16 +173,9 @@ function flipCard(card) {
  */
 function clickCard(event) {
     let card = event.target;
-    flipCard(card);
-}
-
-
-/**
- * @description Event listener when an icon is clicked
- * @param event
- */
-function clickIcon(event) {
-    let card = event.target.parentElement;
+    if (event.target.tagName.toLowerCase() === "i") {
+        card = event.target.parentElement;
+    }
     flipCard(card);
 }
 
@@ -194,16 +201,7 @@ resetButton.addEventListener('click', resetDeck, false);
  */
 const cardList =  getCardList();
 for (let card of cardList) {
-    card.addEventListener('click', clickCard)
-}
-
-
-/**
- * Setup the event listener for the icon clicks
- */
-const iconList = getIconList();
-for (let icon of iconList) {
-    icon.addEventListener('click', clickIcon);
+    card.addEventListener('click', clickCard, false);
 }
 
 
@@ -211,7 +209,3 @@ for (let icon of iconList) {
  * Add event listener to reset card deck on page load.
  */
 document.addEventListener('DOMContentLoaded', resetDeck);
-/**
- * Add event listener to reset the moves counter on page load.
- */
-// document.addEventListener('DOMContentLoaded', resetMoveCounter);
