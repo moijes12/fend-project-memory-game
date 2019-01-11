@@ -121,22 +121,6 @@ function getCardList() {
 
 
 /**
- * @description Get the list of icons on the page
- */
-function getIconList() {
-    // Get all cards
-    const cardList = document.body.getElementsByClassName('card');
-    // Icon list
-    let iconList = [];
-    for (let card of cardList) {
-        // Get the first element
-        iconList.push(card.firstElementChild);
-    }
-    return iconList;
-}
-
-
-/**
  * @description Flip a card when the card or it's inner icon is clicked
  * @param card The card to be flipped
  */
