@@ -21,6 +21,9 @@ let openCard = null;
 // Create a move counter
 let moveCounter = 0;
 
+// User star rating: Begin from highest
+let userStarRating = 3;
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -79,12 +82,59 @@ function reorderCardsInDeck() {
 
 
 /**
+ * @description Update the stars in the score panel.
+ */
+function updateScorePanelStars() {
+    let scorePanelStars = document.querySelector(".stars");
+    // Remove all children of the score panel
+    while (scorePanelStars.firstElementChild) {
+        scorePanelStars.removeChild(scorePanelStars.firstElementChild);
+    }
+    // Attach stars
+    const filledStars = userStarRating;
+    const emptyStars = 3 - userStarRating;
+    for (let i = 0; i < filledStars; i++) {
+        let listElement = document.createElement("LI");
+        let iconElement = document.createElement("I");
+        iconElement.classList.add('fas', 'fa-star');
+        listElement.appendChild(iconElement);
+        scorePanelStars.appendChild(listElement);
+    }
+    for (let i = 0; i < emptyStars; i++) {
+        let listElement = document.createElement("LI");
+        let iconElement = document.createElement("I");
+        iconElement.classList.add('far', 'fa-star');
+        listElement.appendChild(iconElement);
+        scorePanelStars.appendChild(listElement);
+    }
+}
+
+
+/**
+ * @description Update the user star rating.
+ */
+function updateStarRating() {
+    if (moveCounter <= 10) {
+        userStarRating = 3;
+    } else if (moveCounter > 10 && moveCounter <= 20) {
+        userStarRating = 2;
+    } else if (moveCounter >= 20 && moveCounter <= 30) {
+        userStarRating = 1;
+    } else {
+        userStarRating = 0;
+    }
+    updateScorePanelStars();
+}
+
+
+/**
  * @description Method to update move counter when a card is opened to match it to an already opened card.
  */
 function updateMoveCounter() {
     moveCounter = moveCounter + 1;
     const moveCounterElement = document.getElementsByClassName("moves")[0];
     moveCounterElement.innerText = "" + moveCounter.toString();
+    updateStarRating();
 }
 
 
@@ -99,6 +149,15 @@ function resetMoveCounter() {
 
 
 /**
+ * @description Reset Star Rating.
+ */
+function resetStarRating() {
+    userStarRating = 3;
+    updateScorePanelStars();
+}
+
+
+/**
  * @description Reset the card deck by closing all cards and shuffling their order
  */
 function resetDeck() {
@@ -108,6 +167,8 @@ function resetDeck() {
     reorderCardsInDeck();
     // Reset Moves Counter
     resetMoveCounter();
+    // Reset Star Rating
+    resetStarRating();
 }
 
 
