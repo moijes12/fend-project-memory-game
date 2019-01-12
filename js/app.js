@@ -51,7 +51,7 @@ function closeAllCards() {
     // Get all cards
     const cardList = document.body.getElementsByClassName('card');
     for (let card of cardList) {
-        card.classList.remove('open', 'show', 'match');
+        card.classList.remove('open', 'match');
     }
 }
 
@@ -121,15 +121,51 @@ function getCardList() {
 
 
 /**
+ * @description Open a card
+ */
+function showCard(card) {
+    card.classList.add('open');
+}
+
+
+/**
+ * @description Match the cards keeping them open if they match
+ *              or closing both otherwise  
+ */
+function matchCards(card1, card2) {
+    const icon1 = card1.firstElementChild.classList[1].toString();
+    const icon2 = card2.firstElementChild.classList[1].toString();
+    if (icon1 === icon2) {
+        card1.classList.add('match');
+        card2.classList.add('match');
+    } else {
+        card1.classList.remove('open');
+        card2.classList.remove('open');
+    }
+}
+
+
+/**
  * @description Flip a card when the card or it's inner icon is clicked
  * @param card The card to be flipped
  */
 function flipCard(card) {
-    if(card.classList.contains('match') || card.classList.contains('show') || card.classList.contains('open')) {
+    if(card.classList.contains('match') || (card === openCard)) {
         // Do nothing as this card has already been opened
-    } else if (openCard == null) {
-        // First card is being opened
-        card.classList.add('open', 'show');
+    } else {
+        // Update the move counter
+        updateMoveCounter();
+        // Open the new card
+        showCard(card);
+        // If no card is open, open it
+        if (openCard == null) {
+            openCard = card;
+        } else {
+            matchCards(card, openCard);
+            openCard = null;
+        }
+    }
+    /*else if (openCard == null) {
         openCard = card;
         updateMoveCounter();
     } else {
@@ -145,9 +181,9 @@ function flipCard(card) {
             openCard = null;
         } else {
             // It's not a match
-            card.classList.remove('open', 'show');
+            card.classList.remove('open');
         }
-    }
+    }*/
 }
 
 
