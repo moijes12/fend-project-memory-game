@@ -17,6 +17,7 @@ const completeIconList = [...iconsToBeUsed, ...iconsToBeUsed];
 
 // Create a variable to hold the open card
 let openCard = null;
+let matchedCardCount = 0;
 
 // Create a move counter
 let moveCounter = 0;
@@ -158,6 +159,14 @@ function resetStarRating() {
 
 
 /**
+ * @description Reset the matched card count
+ */
+function resetMatchedCardCount() {
+    matchedCardCount = 0;
+}
+
+
+/**
  * @description Reset the card deck by closing all cards and shuffling their order
  */
 function resetDeck() {
@@ -169,6 +178,8 @@ function resetDeck() {
     resetMoveCounter();
     // Reset Star Rating
     resetStarRating();
+    // Reset matched card count
+    resetMatchedCardCount();
 }
 
 
@@ -199,6 +210,8 @@ function matchCards(card1, card2) {
     if (icon1 === icon2) {
         card1.classList.add('match');
         card2.classList.add('match');
+        // Update the matched card count
+        matchedCardCount = matchedCardCount + 1;
     } else {
         card1.classList.remove('open');
         card2.classList.remove('open');
@@ -258,6 +271,12 @@ function clickCard(event) {
         card = event.target.parentElement;
     }
     flipCard(card);
+    // Check if all cards have been matched
+    if (matchedCardCount == iconsToBeUsed.length) {
+        // Dispay animation
+        alert("Yay! You did it!!!");
+        resetDeck();
+    }
 }
 
 /*
