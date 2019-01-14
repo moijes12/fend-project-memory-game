@@ -274,9 +274,24 @@ function clickCard(event) {
     flipCard(card);
     // Check if all cards have been matched
     if (matchedCardCount == iconsToBeUsed.length) {
-        // Dispay animation
-        alert("Yay! You did it!!!");
-        resetDeck();
+        // Dispay animation on game completion
+        swal({
+            title: "Yay!!!",
+            text: `You did it in ${moveCounter} moves!!`,
+            buttons: {
+                cancel: "Go away!",
+                reset: {
+                    text: "Should we play again?",
+                    value: "reset"
+                }
+            }
+        }).then((value) => {
+            switch (value) {
+                case "reset":
+                    resetDeck();
+                    break;
+            }
+        })
     }
 }
 
