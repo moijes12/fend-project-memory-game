@@ -227,14 +227,15 @@ function flipCard(card) {
     if(card.classList.contains('match') || (card === openCard)) {
         // Do nothing as this card has already been opened
     } else {
-        // Update the move counter
-        updateMoveCounter();
         // Open the new card
         showCard(card);
         // If no card is open, open it
         if (openCard == null) {
             openCard = card;
         } else {
+            // Update the move counter
+            updateMoveCounter();
+            // Match the cards
             matchCards(card, openCard);
             openCard = null;
         }
