@@ -275,13 +275,22 @@ function clickCard(event) {
     // Check if all cards have been matched
     if (matchedCardCount == iconsToBeUsed.length) {
         // Dispay animation on game completion
+        const message = `You did it in ${moveCounter} moves!! \n Your star rating is : `;
+        console.log(message);
+        const element = document.createElement("p");
+        const stars = document.querySelectorAll(".stars li i");
+        element.innerText = message;
+        for (let star of stars) {
+            element.appendChild(star);
+        }
+        console.log(element);
         swal({
             title: "Yay!!!",
-            text: `You did it in ${moveCounter} moves!!`,
+            content: element,
             buttons: {
                 cancel: "Go away!",
                 reset: {
-                    text: "Should we play again?",
+                    text: "Play Again",
                     value: "reset"
                 }
             }
