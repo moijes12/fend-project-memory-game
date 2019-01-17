@@ -25,6 +25,12 @@ let moveCounter = 0;
 // User star rating: Begin from highest
 let userStarRating = 3;
 
+// Start time
+let timer = 0;
+
+// Timer Variable
+let timerVariable = null;
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -274,8 +280,14 @@ function clickCard(event) {
     flipCard(card);
     // Check if all cards have been matched
     if (matchedCardCount == iconsToBeUsed.length) {
+        // Stop timer
+        clearInterval(timerVariable);
+        // Time taken
+        let timeTaken = document.querySelector('.timer').innerText.toString();
+        let minutesTaken = timeTaken.split(':')[0];
+        let secondsTaken = timeTaken.split(':')[1];
         // Dispay animation on game completion
-        const message = `You did it in ${moveCounter} moves!! \n Your star rating is : `;
+        const message = `You did it in a time of ${minutesTaken} minutes and ${secondsTaken} seconds with ${moveCounter} moves!! \n Your star rating is : `;
         console.log(message);
         const element = document.createElement("p");
         const stars = document.querySelectorAll(".stars li i");
@@ -298,6 +310,7 @@ function clickCard(event) {
             switch (value) {
                 case "reset":
                     resetDeck();
+                    startTimer();
                     break;
             }
         })
@@ -320,6 +333,7 @@ function clickCard(event) {
  */
 const resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', resetDeck, false);
+resetButton.addEventListener('click', startTimer);
 
 /**
  * Setup the event listener for card clicks.
@@ -334,3 +348,32 @@ for (let card of cardList) {
  * Add event listener to reset card deck on page load.
  */
 document.addEventListener('DOMContentLoaded', resetDeck);
+
+
+/**
+ * @description Start the timer when we load.
+ */
+function updateTime() {
+    timer = timer + 1;
+    minutes = parseInt(timer / 60, 10);
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    let timeToDisplay = minutes + ":" + seconds;
+
+    // Timer element
+    let timerElm = document.querySelector(".timer");
+    timerElm.innerText = timeToDisplay;
+}
+
+/**
+ * @description Start the timer
+ */
+function startTimer() {
+    timer = 0;
+    timerVariable = setInterval(updateTime, 1000);
+}
+
+document.addEventListener('DOMContentLoaded', startTimer);
